@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<context:property-placeholder location="classpath:db.properties" />
+
+
+	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.host.url}" />
+		<property name="username" value="${db.user}" />
+		<property name="password" value="${db.password}" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+
+	<bean id="DatasourceDAOImpl" class="com.snap.dao.DatasourceDAOImpl">
+		<constructor-arg ref="datasource" />
+	</bean>
+
+	<bean id="AlarmDAOImpl" class="com.snap.dao.AlarmDAOImpl">
+		<constructor-arg ref="datasource" />
+	</bean>
+	<bean id="NotificationDaoImpl" class="com.snap.dao.NotificationDaoImpl">
+		<constructor-arg ref="datasource" />
+	</bean>
+
+
+
+
+
+</beans>

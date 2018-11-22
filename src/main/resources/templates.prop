@@ -1,0 +1,11 @@
+batchTemplate=var {id} = batch | query(''' SELECT {field_with_ops} as {field}  from {measurement}  {where} ''' ) \
+			\t .period({period}) \n \t .groupBy({groupby}) \n \t .every({every}) 
+
+alertTemplate = root | alert() \n \t .id('{alertId}') \n \t .message('{message}') .details('{detail}') \
+			\t .warn(lambda: {lambdaExpr}) \n \t .stateChangesOnly(2h) \n \t .log('/tmp/kapacitor.log') 
+
+joinTemplate = var {id} = {first-node} | join({nodes}) \
+	\n\t .as({as}) .tolerance(30s) 
+
+alertMessageTemplate = {{ .Level }}:  {values} for {{ .Tags }}
+fieldMessageTemplate = Value of {field-name} is  {{ index .Fields \"{complete-field-name}\" }} 
